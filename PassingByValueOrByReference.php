@@ -37,6 +37,9 @@ class PassingByValueOrByReferenceTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals("someString", $a[2], 'Initial value of element at 2 is someString');
     $passByValue($a);
     $this->assertEquals(1, $a[0], 'After passing by value, the value of element at 0 is still 1');
+
+  // http://stackoverflow.com/questions/11074970/will-copy-on-write-prevent-data-duplication-on-arrays
+  // There is no need to pass string by reference for it is copied only on write access.
     $this->assertEquals("someString", $a[2], 'After passing by value, the value of element at 2 is still someString');
   }
 
