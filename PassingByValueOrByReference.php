@@ -26,24 +26,34 @@ class PassingByValueOrByReferenceTest extends PHPUnit_Framework_TestCase {
 
   public function testArrayPassingByValue() {
 
-    $a = [1, 2];
+    $a = [1, 2, "someString"];
 
-    $passByValue = function($array) {$array[0] = 100;};
+    $passByValue = function($array) {
+      $array[0] = 100; 
+      $array[2] .= " changed";
+    };
 
     $this->assertEquals(1, $a[0], 'Initial value of element at 0 is 1');
+    $this->assertEquals("someString", $a[2], 'Initial value of element at 2 is someString');
     $passByValue($a);
     $this->assertEquals(1, $a[0], 'After passing by value, the value of element at 0 is still 1');
+    $this->assertEquals("someString", $a[2], 'After passing by value, the value of element at 2 is still someString');
   }
 
   public function testArrayPassingByReference() {
 
-    $a = [1, 2];
+    $a = [1, 2, "someString"];
 
-    $passByReference= function(&$array) {$array[0] = 100;};
+    $passByReference= function(&$array) {
+      $array[0] = 100;
+      $array[2] .= " changed";
+    };
 
     $this->assertEquals(1, $a[0], 'Initial value of element at 0 is 1');
+    $this->assertEquals("someString", $a[2], 'Initial value of element at 2 is someString');
     $passByReference($a);
     $this->assertEquals(100, $a[0], 'After apssing by reference, the value of element at 0 is  100');
+    $this->assertEquals("someString changed", $a[2], 'After passing by value, the value of element at 2 is still someString changed');
   }
 
   public function testArrayPassingByValueContainingObjects() {
